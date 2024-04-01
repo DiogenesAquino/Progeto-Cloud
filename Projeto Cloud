@@ -1,0 +1,23 @@
+import boto3
+
+def criar_instancia_ec2():
+    # Configuração do cliente EC2 da AWS
+    ec2_client = boto3.client('ec2', region_name='us-east-1')  # Defina a região conforme necessário
+
+    # Parâmetros para criação da instância
+    instancia_params = {
+        'ImageId': 'ami-12345678',  # ID da AMI da instância desejada
+        'InstanceType': 't2.micro',  # Tipo da instância (pode ser alterado conforme necessário)
+        'KeyName': 'nome-da-chave',  # Nome da chave SSH para acesso à instância
+        'MinCount': 1,
+        'MaxCount': 1
+    }
+
+    # Criação da instância
+    response = ec2_client.run_instances(**instancia_params)
+    instancia_id = response['Instances'][0]['InstanceId']
+
+    print(f'Instância EC2 criada com ID: {instancia_id}')
+
+if __name__ == "__main__":
+    criar_instancia_ec2()
